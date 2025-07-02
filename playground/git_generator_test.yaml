@@ -1,0 +1,38 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: nginx
+  namespace: argo
+spec:
+  goTemplate: true
+  generators:
+    - git:
+        repoURL: https://github.com/packtpublishing/managing-kubernetes-resources-using-helm/
+        revision: HEAD
+        files:
+          - path:  "playground/env/*.yaml"
+  template:
+    metadata:
+      name: nginx-{{ path.filename | trimSuffix ".yaml" }}
+    spec:
+      project: default
+      sources:
+        - repoURL: https://github.com/PacktPublishing/Managing-Kubernetes-Resources-using-Helm.git
+          path: chapter10/multiple-envs/nginx
+          targetRevision: HEAD
+        - repoURL: https://github.com/PacktPublishing/Managing-Kubernetes-Resources-using-Helm.git
+          targetRevision: HEAD
+          path: playground/env/{{ path.filename | trimSuffix ".yaml" }}
+          helm:
+            releaseName: nginx
+            values: |
+              {{ .chart_values }}
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: playground
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+  syncPolicy:
+    preserveResourcesOnDeletion: false
