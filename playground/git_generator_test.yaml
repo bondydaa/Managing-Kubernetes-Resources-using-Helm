@@ -10,10 +10,10 @@ spec:
         repoURL: https://github.com/bondydaa/Managing-Kubernetes-Resources-using-Helm.git
         revision: HEAD
         files:
-          - path:  chapter10/multiple-envs/nginx/values/**/values.yaml
+          - path:  playground/env/*.yaml
   template:
     metadata:
-      name: nginx-{{ index .path.segments 4 }}
+      name: nginx-{{ index .path.segments 2 }}
     spec:
       project: default
       sources:
@@ -21,9 +21,9 @@ spec:
           path: chapter10/multiple-envs/nginx
           targetRevision: HEAD
           helm:
-            releaseName: nginx-{{ index .path.segments 4 }}
-            values: |
-              {{ .chart_data }}
+            releaseName: nginx-{{ index .path.segments 2 }}
+            valueFiles: 
+              - values/common-values.yaml
       destination:
         server: https://kubernetes.default.svc
         namespace: playground
