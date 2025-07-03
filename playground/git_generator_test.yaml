@@ -24,6 +24,7 @@ spec:
           releaseName: nginx-dev
           valueFiles:
             - values/common-values.yaml
+            - values/prod/values.yaml
       destination:
         server: https://kubernetes.default.svc
         namespace: playground
