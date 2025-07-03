@@ -22,8 +22,8 @@ spec:
           targetRevision: HEAD
           helm:
             releaseName: nginx-{{ index .path.segments 4 }}
-        - repoURL: https://github.com/bondydaa/Managing-Kubernetes-Resources-using-Helm.git
-          path: chapter10/multiple-envs/nginx/values/
+            values: |
+              {{ .chart_data }}
       destination:
         server: https://kubernetes.default.svc
         namespace: playground
