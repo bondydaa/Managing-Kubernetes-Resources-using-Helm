@@ -10,10 +10,10 @@ spec:
         repoURL: https://github.com/bondydaa/Managing-Kubernetes-Resources-using-Helm.git
         revision: HEAD
         files:
-          - path:  playground/env/*.yaml
+          - path:  playground/env/*.json
   template:
     metadata:
-      name: nginx-{{ .path.filename | trimSuffix ".yaml" }}
+      name: nginx-{{ .path.filename | trimSuffix ".json" }}
     spec:
       project: default
       sources:
@@ -21,7 +21,7 @@ spec:
           path: chapter10/multiple-envs/nginx
           targetRevision: HEAD
           helm:
-            releaseName: nginx-{{ .path.filename | trimSuffix ".yaml" }}
+            releaseName: nginx-{{ .path.filename | trimSuffix ".json" }}
             valueFiles: 
               - values/common-values.yaml
       destination:
