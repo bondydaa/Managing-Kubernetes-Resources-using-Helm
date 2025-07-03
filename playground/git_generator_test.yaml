@@ -10,10 +10,10 @@ spec:
         repoURL: https://github.com/bondydaa/Managing-Kubernetes-Resources-using-Helm.git
         revision: HEAD
         files:
-          - path:  playground/env/*.json
+          - path:  playground/env/*.yaml
   template:
     metadata:
-      name: nginx-{{ .path.filename | trimSuffix ".json" }}
+      name: nginx-{{ .path.filename | trimSuffix ".yaml" }}
     spec:
       project: default
       sources:
@@ -21,9 +21,12 @@ spec:
           path: chapter10/multiple-envs/nginx
           targetRevision: HEAD
           helm:
-            releaseName: nginx-{{ .path.filename | trimSuffix ".json" }}
+            releaseName: nginx-{{ .path.filename | trimSuffix ".yaml" }}
             valueFiles: 
               - values/common-values.yaml
+            parameters:
+              - name: replicaCount
+                value: '{{ .replicaCount }}'
       destination:
         server: https://kubernetes.default.svc
         namespace: playground
