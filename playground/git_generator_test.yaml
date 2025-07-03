@@ -16,15 +16,14 @@ spec:
       name: nginx-{{ index .path.segments 4 }}
     spec:
       project: default
-      source:
-        repoURL: https://github.com/bondydaa/Managing-Kubernetes-Resources-using-Helm.git
-        path: chapter10/multiple-envs/nginx
-        targetRevision: HEAD
-        helm:
-          releaseName: nginx-{{ index .path.segments 4 }}
-          valueFiles:
-            - values/common-values.yaml
-            - values/{{ index .path.segments 4 }}/values.yaml
+      sources:
+        - repoURL: https://github.com/bondydaa/Managing-Kubernetes-Resources-using-Helm.git
+          path: chapter10/multiple-envs/nginx
+          targetRevision: HEAD
+          helm:
+            releaseName: nginx-{{ index .path.segments 4 }}
+        - repoURL: https://github.com/bondydaa/Managing-Kubernetes-Resources-using-Helm.git
+          path: chapter10/multiple-envs/nginx/values/
       destination:
         server: https://kubernetes.default.svc
         namespace: playground
