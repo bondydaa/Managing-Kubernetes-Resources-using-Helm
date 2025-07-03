@@ -7,26 +7,23 @@ spec:
   goTemplate: true
   generators:
     - git:
-        repoURL: https://github.com/packtpublishing/managing-kubernetes-resources-using-helm/
+        repoURL: https://github.com/bondydaa/Managing-Kubernetes-Resources-using-Helm.git
         revision: HEAD
         files:
-          - path:  "playground/env/*.yaml"
+          - path:  chapter10/multiple-envs/nginx/values/prod/values.yaml
   template:
     metadata:
-      name: nginx-{{ path.filename | trimSuffix ".yaml" }}
+      name: nginx-dev
     spec:
       project: default
-      sources:
-        - repoURL: https://github.com/PacktPublishing/Managing-Kubernetes-Resources-using-Helm.git
-          path: chapter10/multiple-envs/nginx
-          targetRevision: HEAD
-        - repoURL: https://github.com/PacktPublishing/Managing-Kubernetes-Resources-using-Helm.git
-          targetRevision: HEAD
-          path: playground/env/{{ path.filename | trimSuffix ".yaml" }}
-          helm:
-            releaseName: nginx
-            values: |
-              {{ .chart_values }}
+      source:
+        repoURL: https://github.com/bondydaa/Managing-Kubernetes-Resources-using-Helm.git
+        path: chapter10/multiple-envs/nginx
+        targetRevision: HEAD
+        helm:
+          releaseName: nginx-dev
+          valueFiles:
+            - values/common-values.yaml
       destination:
         server: https://kubernetes.default.svc
         namespace: playground
